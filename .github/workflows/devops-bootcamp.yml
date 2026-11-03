@@ -1,0 +1,35 @@
+name: DevOps Bootcamp Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  system-info:
+    name: Execute System Info Script
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Make System Info Script Executable
+        run: chmod +x systeminfo.sh
+
+      - name: Run System Info Script
+        run: ./systeminfo.sh
+
+  website-check:
+    name: Execute Website Connectivity Checker
+    runs-on: ubuntu-latest
+    needs: system-info
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Make Website Checker Executable
+        run: chmod +x checkWebsite.sh
+
+      - name: Run Website Connectivity Checker
+        run: ./checkWebsite.sh www.google.com
